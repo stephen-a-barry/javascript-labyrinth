@@ -2,6 +2,66 @@ html {
   background-color: #003300;
 }
 
+td div{
+  margin-top: 0px;
+  margin-bottom: 0px;
+  height: 0;
+  width: 0;
+  position: relative;
+}
+
+div .topSky{
+  border-top: 1.5em solid lightblue;
+}
+
+div .leftSky{
+  border-left: 2.25em solid lightblue;
+}
+
+div .rightSky{
+  border-right: 2.25em solid lightblue;
+}
+
+div .topWall{
+  border-top: 1.5em solid gray;
+}
+
+div .leftWall{
+  border-left: 2.25em solid gray;
+}
+
+div .rightWall{
+  border-right: 2.25em solid gray;
+}
+
+div .bottomWall{
+  border-bottom: 1.5em solid gray;
+}
+
+div .bottomFloor{
+  border-bottom: 1.5em solid darkgray;
+}
+
+div .leftFloor{
+  border-left: 2.25em solid darkgray;
+}
+
+div .rightFloor{
+  border-right: 2.25em solid darkgray;
+}
+
+.skyblue{
+  background-color: lightblue;
+}
+
+.floorgray{
+  background-color: darkgray;
+}
+
+.wallgray{
+  background-color: gray;
+}
+
 div {
   margin-top: 80px;
   margin-bottom: 120px;
@@ -30,12 +90,17 @@ table {
   background-color: white;
 }
 
-tr, td {
-  border: 1px solid black;
+.bcell {
   width: 20px;
+}
+
+tr, td {
+  border: 0px solid black;
+  width: 30px;
   height: 20px;
   text-align: center;
   font-size: 14px;
+  padding: 0;
 }
 
 .wall {
