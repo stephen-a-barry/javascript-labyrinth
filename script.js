@@ -22,6 +22,8 @@ function makeTable(numRows, numCols, tableID) {
         cell.className += ' ' + tableID + 'cell';
         cell.id = tableID + 'c' + cellInfo(i, j+1, numCols);
       //cell.innerHTML = cellInfo(i, j+1, numCols);
+        var cellDiv = document.createElement('div');
+        cell.appendChild(cellDiv);
         row.appendChild(cell);
       }
     myTable.appendChild(row);
@@ -158,8 +160,11 @@ function mazeMove(){
       default:
         break;
     }
+    translateMapToWindow(mapPosition.cellNum);
   });
 }
+
+//Object mapPosition and methods
 
 var mapPosition = {
   cellNum: 218,
@@ -175,12 +180,11 @@ mapPosition.moveForward = function(oldPosition){
     document.querySelector("#bc218").className = "bcell wall";  //Encloses user into the maze
   }
   var newPosition = oldPosition - numberOfColumns('b');
-  if (newPosition < 1){
+  if (newPosition == 6){
     confirm("You Solved The Maze!!!");
     location.reload();
   }
-  if (document.querySelector("#bc" + newPosition).className === " bcell wall" ||
-      document.querySelector("#bc" + newPosition).className === "bcell wall") {
+  if (document.querySelector("#bc" + newPosition).classList.contains("wall") == true) {
     return oldPosition;
     } else {
       document.querySelector("#bc" + oldPosition).innerHTML = '';
@@ -237,6 +241,8 @@ mapPosition.turnLeft = function(oldPosition){
   return newPosition;
 }
 
+//Maze window sections
+
 function section1(blockColor,splitColor1,splitColor2){
   paintCells(2,24,1,blockColor);
   paintCells(28,48,1,blockColor);
@@ -283,7 +289,7 @@ function section6(blockColor,splitColor1,splitColor2){
 function section7(blockColor,splitColor1,splitColor2){
   paintCells(362,364,1,blockColor);
   paintCells(386,390,1,blockColor);
-  borderCells(362,364,1,"top","black");
+  //borderCells(362,364,1,"top","black");
   splitCells(361,385,24,splitColor1,splitColor2)
 }
 
@@ -291,7 +297,7 @@ function section8(blockColor, splitColor1, splitColor2){
   paintCells(410,416,1,blockColor);
   paintCells(434,442,1,blockColor);
   paintCells(458,468,1,blockColor);
-  borderCells(410,416,1,"top","black");
+  //borderCells(410,416,1,"top","black");
   splitCells(409,457,24,splitColor1,splitColor2);
 }
 
@@ -300,14 +306,14 @@ function section9(blockColor, splitColor1, splitColor2){
   paintCells(506,520,1,blockColor);
   paintCells(530,546,1,blockColor);
   paintCells(554,572,1,blockColor);
-  borderCells(482,494,1,"top","black");
+  //borderCells(482,494,1,"top","black");
   splitCells(481,553,24,splitColor1,splitColor2);
 }
 
 function section10(blockColor, splitColor1, splitColor2){
   paintCells(578,598,1,blockColor);
   paintCells(602,624,1,blockColor);
-  borderCells(578,598,1,"top","black");
+  //borderCells(578,598,1,"top","black");
   splitCells(577,601,24,splitColor1,splitColor2);
 }
 
@@ -319,7 +325,7 @@ function section11(blockColor, splitColor1, splitColor2){
 function section12(blockColor){
   paintCells(51,551,25,blockColor);
   paintCells(52,552,25,blockColor);
-  borderCells(52,552,25,"right","black")
+  //borderCells(52,552,25,"right","black")
 }
 
 function section13(blockColor){
@@ -338,7 +344,7 @@ function section15(blockColor){
   paintCells(154,454,25,blockColor);
   paintCells(155,455,25,blockColor);
   paintCells(156,456,25,blockColor);
-  borderCells(156,456,25,"right","black");
+  //borderCells(156,456,25,"right","black");
 }
 
 function section16(blockColor,splitColor1,splitColor2){
@@ -357,7 +363,7 @@ function section18(blockColor){
   paintCells(232,382,25,blockColor);
   paintCells(233,383,25,blockColor);
   paintCells(234,384,25,blockColor);
-  borderCells(234,384,25,"right","black");
+  //borderCells(234,384,25,"right","black");
 }
 
 function section19(blockColor){
@@ -373,7 +379,7 @@ function section20(blockColor,splitColor1,splitColor2){
 function section21(blockColor){
   paintCells(285,335,25,blockColor);
   paintCells(286,336,25,blockColor);
-  borderCells(286,336,25,"right","black");
+  //borderCells(286,336,25,"right","black");
 }
 
 function section22(blockColor){
@@ -403,7 +409,7 @@ function section27(blockColor){
 function section28(blockColor){
   paintCells(290,340,25,blockColor);
   paintCells(291,341,25,blockColor);
-  borderCells(290,340,25,"left","black");
+  //borderCells(290,340,25,"left","black");
 }
 
 function section29(blockColor,splitColor1,splitColor2){
@@ -420,7 +426,7 @@ function section31(blockColor){
   paintCells(242,392,25,blockColor);
   paintCells(243,393,25,blockColor);
   paintCells(244,394,25,blockColor);
-  borderCells(242,392,25,"left","black");
+  //borderCells(242,392,25,"left","black");
 }
 
 function section32(blockColor,splitColor1,splitColor2){
@@ -440,7 +446,7 @@ function section34(blockColor){
     paintCells(171,471,25,blockColor);
     paintCells(172,472,25,blockColor);
     paintCells(173,473,25,blockColor);
-    borderCells(170,470,25,"left","black");
+    //borderCells(170,470,25,"left","black");
 }
 
 function section35(blockColor,splitColor1,splitColor2){
@@ -457,7 +463,7 @@ function section36(blockColor){
 function section37(blockColor){
   paintCells(74,574,25,blockColor);
   paintCells(75,575,25,blockColor);
-  borderCells(74,574,25,"left","black");
+  //borderCells(74,574,25,"left","black");
 }
 
 function section38(blockColor, splitColor1, splitColor2){
@@ -468,6 +474,8 @@ function section38(blockColor, splitColor1, splitColor2){
 function section39(blockColor){
   paintCells(313,313,1,blockColor);
 }
+
+//maze window functions
 
 function paintCells(num1, num2, num3, paintColor){
   for (num1; num1<=num2; num1+=num3){
@@ -507,7 +515,8 @@ function splitCells(num1,num2,num3,color1,color2){
     var targetCell = document.querySelector('#ac' + num1);
     var splitCell = document.createElement('div');
     splitCell.className = " " + color1 + ' ' + color2;
-    targetCell.appendChild(splitCell);
+    var replacedDiv = targetCell.childNodes[0];
+    targetCell.replaceChild(splitCell, replacedDiv);
   }
 }
 
@@ -515,49 +524,209 @@ function splitCells(num1,num2,num3,color1,color2){
 //splitColors are topSky, leftSky, rightSky, bottomFloor, leftFloor, rightFloor,
 //leftWall, rightWall, topWall, and bottomWall
 
-section1("skyblue","topSky","rightWall");
-section2("skyblue","topSky","rightWall");
-section3("skyblue","topSky","rightWall");
-section4("skyblue","topSky","rightWall");
-section5("skyblue","topSky","rightWall");
-section6("floorgray","leftWall","bottomFloor");
-section7("floorgray","leftWall","bottomFloor");
-section8("floorgray","leftWall","bottomFloor");
-section9("floorgray","leftWall","bottomFloor");
-section10("floorgray","leftWall","bottomFloor");
-section11("wallgray","leftWall","topSky");
-section12("wallgray");
-section13("wallgray");
-section14("wallgray","leftWall","topSky");
-section15("wallgray");
-section16("wallgray");
-section17("wallgray","leftWall","topSky");
-section18("wallgray");
-section19("wallgray");
-section20("wallgray","leftWall","topSky");
-section21("wallgray","leftWall","topSky");
-section22("wallgray");
-section23("wallgray","leftWall","topSky");
-section24("wallgray");
-section25("wallgray");
-section26("wallgray", "rightWall","bottomFloor");
-section27("wallgray");
-section28("wallgray");
-section29("wallgray","leftFloor","topWall");
-section30("wallgray");
-section31("wallgray");
-section32("wallgray","leftFloor","topWall");
-section33("wallgray");
-section34("wallgray");
-section35("wallgray","leftFloor","topWall");
-section36("wallgray");
-section37("wallgray");
-section38("wallgray", "leftFloor", "topWall");
-section39("wallgray");
+function translateMapToWindow(cellNum){
+
+  section39("wallgray");
+  section24("wallgray");
+  section25("wallgray");
+
+  if (wallCheck(cellNum,4,"left") == true){
+    section6("floorgray","leftWall","bottomFloor");
+    section23("wallgray","leftWall","topSky");
+  } else {
+    section6("floorgray","bottomFloor","leftFloor");
+    section23("wallgray","topSky","leftSky");
+  }
+  if (wallCheck(cellNum,4,"right") == true){
+    section5("skyblue","topSky","rightWall");
+    section26("floorgray","rightWall","bottomFloor");
+  } else {
+    section5("skyblue","topSky","rightSky");
+    section26("floorgray","bottomFloor","rightFloor");
+  }
+  if (wallCheck(cellNum,4,"center") == true){
+    wallSection1();
+  }
+  if (wallCheck(cellNum,3,"left") == true){
+    section7("floorgray","bottomFloor","leftWall");
+    section20("wallgray","topSky","leftWall");
+    section21("wallgray");
+    section22("wallgray");
+  } else {
+    section7("floorgray","bottomFloor","leftFloor");
+    section20("skyblue","topSky","leftSky");
+    section21("wallgray");
+    section22("floorgray");
+  }
+  if (wallCheck(cellNum,3,"right") == true){
+    section4("skyblue","topSky","rightWall");
+    section27("wallgray");
+    section28("wallgray");
+    section29("wallgray","bottomFloor","rightWall");
+  } else {
+    section4("skyblue","topSky","rightSky");
+    section27("skyblue");
+    section28("wallgray");
+    section29("floorgray","bottomFloor","rightFloor");
+  }
+  if (wallCheck(cellNum,3,"center") == true){
+    wallSection2();
+  }
+  if (wallCheck(cellNum,2,"left") == true){
+    section8("floorgray","bottomFloor","leftWall");
+    section17("wallgray","topSky","leftWall");
+    section18("wallgray");
+    section19("wallgray");
+  } else {
+    section8("floorgray","bottomFloor","leftFloor");
+    section17("skyblue","topSky","leftSky");
+    section18("wallgray");
+    section19("floorgray");
+  }
+  if (wallCheck(cellNum,2,"right") == true){
+    section3("skyblue","topSky","rightWall");
+    section30("wallgray");
+    section31("wallgray");
+    section32("wallgray","bottomFloor","rightWall");
+  } else {
+    section3("skyblue","topSky","rightSky");
+    section30("skyblue");
+    section31("wallgray");
+    section32("floorgray","bottomFloor","rightFloor");
+  }
+  if (wallCheck(cellNum,2,"center") == true){
+    wallSection3();
+  }
+  if (wallCheck(cellNum,1,"left") == true){
+    section9("floorgray","bottomFloor","leftWall");
+    section14("wallgray","topSky","leftWall");
+    section15("wallgray");
+    section16("wallgray");
+  } else {
+    section9("floorgray","bottomFloor","leftFloor");
+    section14("skyblue","topSky","leftSky");
+    section15("wallgray");
+    section16("floorgray");
+  }
+  if (wallCheck(cellNum,1,"right") == true){
+    section2("skyblue","topSky","rightWall");
+    section33("wallgray");
+    section34("wallgray");
+    section35("wallgray","bottomFloor","rightWall");
+  } else {
+    section2("skyblue","topSky","rightSky");
+    section33("skyblue");
+    section34("wallgray");
+    section35("floorgray","bottomFloor","rightFloor");
+  }
+  if (wallCheck(cellNum,1,"center") == true){
+    wallSection4();
+  }
+  if (wallCheck(cellNum,0,"left") == true){
+    section10("floorgray","bottomFloor","leftWall");
+    section11("wallgray","topSky","leftWall");
+    section12("wallgray");
+    section13("wallgray");
+  } else {
+    section10("floorgray","bottomFloor","leftFloor");
+    section11("skyblue","topSky","leftSky");
+    section12("wallgray");
+    section13("floorgray");
+  }
+  if (wallCheck(cellNum,0,"right") == true){
+    section1("skyblue","topSky","rightWall");
+    section36("wallgray");
+    section37("wallgray");
+    section38("wallgray","bottomFloor","rightWall");
+  } else {
+    section1("skyblue","topSky","rightSky");
+    section36("skyblue");
+    section37("wallgray");
+    section38("floorgray","bottomFloor","rightFloor");
+  }
+  if (wallCheck(cellNum,0,"center") == true){
+    wallSection5();
+  }
+}
+
+function wallSection1(){
+  section5("wallgray","topWall","rightWall");
+  section6("wallgray","leftWall","bottomWall");
+  section23("wallgray","topWall","leftWall");
+  section24("wallgray");
+  section25("wallgray");
+  section26("wallgray","bottomWall","rightWall");
+}
+
+function wallSection2(){
+  wallSection1();
+  section4("wallgray","topWall","rightWall");
+  section7("wallgray","bottomWall","leftWall");
+  section20("wallgray","topWall","leftWall");
+  section21("wallgray");
+  section22("wallgray");
+  section27("wallgray");
+  section28("wallgray");
+  section29("wallgray","bottomWall","rightWall");
+}
+
+function wallSection3(){
+  wallSection2();
+  section3("wallgray","topWall","rightWall");
+  section8("wallgray","bottomWall","leftWall");
+  section17("wallgray","topWall","leftWall");
+  section18("wallgray");
+  section19("wallgray");
+  section30("wallgray");
+  section31("wallgray");
+  section32("wallgray","bottomWall","rightWall");
+}
+
+function wallSection4(){
+  wallSection3();
+  section2("wallgray","topWall","rightWall");
+  section9("wallgray","bottomWall","leftWall");
+  section14("wallgray","topWall","leftWall");
+  section15("wallgray");
+  section16("wallgray");
+  section33("wallgray");
+  section34("wallgray");
+  section35("wallgray","bottomWall","rightWall");
+}
+
+function wallSection5(){
+  wallSection4();
+  section1("wallgray","topWall","rightWall");
+  section10("wallgray","bottomWall","leftWall");
+  section11("wallgray","topWall","leftWall");
+  section12("wallgray");
+  section13("wallgray");
+  section36("wallgray");
+  section37("wallgray");
+  section38("wallgray","bottomWall","rightWall");
+}
+//checking whether there is a wall at depth 1-5, and if it is on the left, right, or straight ahead
+
+function wallCheck(cellNum,depth,leftRightOrCenter){
+  var checkPosition;
+  if (leftRightOrCenter == "left"){
+    checkPosition = document.querySelector("#bc" + (cellNum - (15*depth+1)));
+  } else if (leftRightOrCenter == "right"){
+    checkPosition = document.querySelector("#bc" + (cellNum - (15*depth-1)));
+  } else {
+    checkPosition = document.querySelector("#bc" + (cellNum - (15*depth)));
+  }
+  if (checkPosition != null){
+    return (checkPosition.classList.contains("wall"));
+  } else {
+    return false;
+  }
+}
 
 function main(){
   buildMazeMap(mazeArray);
   mapPosition.state();
+  translateMapToWindow(218);
   mazeMove();
 }
 
