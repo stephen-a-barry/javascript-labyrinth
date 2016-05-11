@@ -53,6 +53,28 @@ function buildMazeMap(mazeArray){
 }
 
 document.querySelector('#header').innerHTML = "JavaScript Labyrinth";
+var ifBool = false;
+
+//Makes the cheatBox
+
+var cheatBox = document.createElement('div');
+cheatBox.src = 'static/Escherroom.jpg';
+cheatBox.id = 'cheat';
+var myTarget = document.getElementsByTagName('div')[628];
+var hoverToCheat = document.createElement('p');
+var cheatText = document.createTextNode("Move Mouse Here to Reveal Maze");
+hoverToCheat.appendChild(cheatText);
+cheatBox.appendChild(hoverToCheat);
+myTarget.appendChild(cheatBox);
+
+
+
+document.querySelector('#bt').addEventListener("mouseover", function(){
+  cheatBox.style.visibility = 'hidden';
+});
+document.querySelector('#bt').addEventListener("mouseout", function(){
+  cheatBox.style.visibility = 'visible';
+});
 
 //Rotates the maze map
 
@@ -142,6 +164,54 @@ function right(){
 }
 
 function mazeMove(){
+
+  var forwardArray = [];
+  for (j = 0; j<13; j++){
+    for (i = 157 + (j*25); i < 170 + (j*25); i++){
+    arrayCell = document.querySelector( '#ac'+ i );
+    forwardArray.push(arrayCell);
+    }
+  }
+  for (i = 0; i < forwardArray.length; i++){
+  forwardArray[i].style.cursor = 'n-resize';
+  forwardArray[i].addEventListener("click", function(go){
+    mapPosition.cellNum = mapPosition.moveForward(mapPosition.cellNum);
+    translateMapToWindow(mapPosition.cellNum);
+    });
+  }
+
+  var leftArray = [];
+  for (j = 0; j<25; j++){
+    for (i = 1 + (j*25); i < 5 + (j*25); i++){
+    arrayCell = document.querySelector( '#ac'+ i );
+    leftArray.push(arrayCell);
+    }
+  }
+  for (i = 0; i < leftArray.length; i++){
+  leftArray[i].style.cursor = 'w-resize';
+  leftArray[i].addEventListener("click", function(go){
+    rotateMazeMap(right());
+    mapPosition.cellNum = mapPosition.turnLeft(mapPosition.cellNum);
+    translateMapToWindow(mapPosition.cellNum);
+    });
+  }
+
+  var rightArray = [];
+  for (j = 0; j<25; j++){
+    for (i = 22 + (j*25); i < 26 + (j*25); i++){
+    arrayCell = document.querySelector( '#ac'+ i );
+    rightArray.push(arrayCell);
+    }
+  }
+  for (i = 0; i < rightArray.length; i++){
+  rightArray[i].style.cursor = 'e-resize';
+  rightArray[i].addEventListener("click", function(go){
+    rotateMazeMap(left());
+    mapPosition.cellNum = mapPosition.turnRight(mapPosition.cellNum);
+    translateMapToWindow(mapPosition.cellNum);
+    });
+  }
+
   document.addEventListener("keydown", function(evt){
     switch (evt.keyCode){
       case 38:
@@ -523,8 +593,8 @@ function splitCells(num1,num2,num3,color1,color2){
 
 function translateMapToWindow(cellNum){
 
-console.log(mapPosition.cellNum)
-console.log(mapPosition.direction)
+console.log(mapPosition.cellNum);
+console.log(mapPosition.direction);
 
   section39("wallgray");
   section24("wallgray");
@@ -649,6 +719,22 @@ console.log(mapPosition.direction)
     wallSection4();
   }
 
+  if(mapPosition.cellNum === 203 && mapPosition.direction === "north"){
+    if (ifBool != true){
+      var audio = new Audio('static/if.mp3');
+      audio.play();
+      ifBool = true;
+    }
+  }
+
+  if(mapPosition.cellNum === 21 && mapPosition.direction === "north"){
+    var farImage = document.createElement('img');
+    farImage.src = 'static/Escherroom.jpg';
+    farImage.id = 'farImage';
+    var myTarget = document.getElementsByTagName('div')[133];
+    myTarget.appendChild(farImage);
+  }
+
   if(mapPosition.cellNum === 6 && mapPosition.direction === "north"){
     var targetDiv = document.getElementsByTagName('div')[1];
     var targetTable =document.getElementsByTagName('table')[0];
@@ -656,6 +742,8 @@ console.log(mapPosition.direction)
     mazeImage.src = 'static/Escherroom.jpg';
     targetDiv.replaceChild(mazeImage, targetTable);
     document.querySelector('#header').innerHTML = "You Did It!!!";
+    var victory = new Audio('static/ode_to_joy.mp3');
+    victory.play();
       //confirm("You Solved The Maze!!!");
       //location.reload();
   }
@@ -724,10 +812,16 @@ function wallCheck(cellNum,depth,leftRightOrCenter){
   }
 }
 
+function allo(){
+  var welcome = new Audio('static/Allo.mp3');
+  welcome.play();
+}
+
 function main(){
   buildMazeMap(mazeArray);
   mapPosition.state();
   translateMapToWindow(218);
+  window.setTimeout(allo,1000);
   mazeMove();
 }
 
