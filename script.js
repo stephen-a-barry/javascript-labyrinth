@@ -52,9 +52,13 @@ function buildMazeMap(mazeArray){
   }
 }
 
+//Code without a place
+
 document.querySelector('#header').innerHTML = "JavaScript Labyrinth";
 var ifBool = false;
-
+var nextToLast = false;
+var timeBegin = 0;
+var timeEnd = 0;
 //Makes the cheatBox
 
 var cheatBox = document.createElement('div');
@@ -66,8 +70,6 @@ var cheatText = document.createTextNode("Move Mouse Here to Reveal Maze");
 hoverToCheat.appendChild(cheatText);
 cheatBox.appendChild(hoverToCheat);
 myTarget.appendChild(cheatBox);
-
-
 
 document.querySelector('#bt').addEventListener("mouseover", function(){
   cheatBox.style.visibility = 'hidden';
@@ -174,7 +176,7 @@ function mazeMove(){
   }
   for (i = 0; i < forwardArray.length; i++){
   forwardArray[i].style.cursor = 'n-resize';
-  forwardArray[i].addEventListener("click", function(go){
+  forwardArray[i].addEventListener("click", function(){
     mapPosition.cellNum = mapPosition.moveForward(mapPosition.cellNum);
     translateMapToWindow(mapPosition.cellNum);
     });
@@ -189,7 +191,7 @@ function mazeMove(){
   }
   for (i = 0; i < leftArray.length; i++){
   leftArray[i].style.cursor = 'w-resize';
-  leftArray[i].addEventListener("click", function(go){
+  leftArray[i].addEventListener("click", function(){
     rotateMazeMap(right());
     mapPosition.cellNum = mapPosition.turnLeft(mapPosition.cellNum);
     translateMapToWindow(mapPosition.cellNum);
@@ -205,7 +207,7 @@ function mazeMove(){
   }
   for (i = 0; i < rightArray.length; i++){
   rightArray[i].style.cursor = 'e-resize';
-  rightArray[i].addEventListener("click", function(go){
+  rightArray[i].addEventListener("click", function(){
     rotateMazeMap(left());
     mapPosition.cellNum = mapPosition.turnRight(mapPosition.cellNum);
     translateMapToWindow(mapPosition.cellNum);
@@ -219,10 +221,12 @@ function mazeMove(){
         mapPosition.cellNum = mapPosition.moveForward(mapPosition.cellNum);
         break;
       case 39:
+        evt.preventDefault();
         rotateMazeMap(left());
         mapPosition.cellNum = mapPosition.turnRight(mapPosition.cellNum);
         break;
       case 37:
+        evt.preventDefault();
         rotateMazeMap(right());
         mapPosition.cellNum = mapPosition.turnLeft(mapPosition.cellNum);
         break;
@@ -474,7 +478,6 @@ function section28(blockColor,borderColor){
   paintCells(290,340,25,blockColor);
   paintCells(291,341,25,blockColor);
   borderCells(290,340,25,"left",borderColor);
-  //borderCells(291,341,25,"right",borderColor);
 }
 
 function section29(blockColor,splitColor1,splitColor2){
@@ -492,7 +495,6 @@ function section31(blockColor,borderColor){
   paintCells(243,393,25,blockColor);
   paintCells(244,394,25,blockColor);
   borderCells(242,392,25,"left",borderColor);
-  //borderCells(244,394,25,"right",borderColor);
 }
 
 function section32(blockColor,splitColor1,splitColor2){
@@ -508,12 +510,11 @@ function section33(blockColor){
 }
 
 function section34(blockColor,borderColor){
-    paintCells(170,470,25,blockColor);
-    paintCells(171,471,25,blockColor);
-    paintCells(172,472,25,blockColor);
-    paintCells(173,473,25,blockColor);
-    borderCells(170,470,25,"left",borderColor);
-    //borderCells(173,473,25,"right",borderColor);
+  paintCells(170,470,25,blockColor);
+  paintCells(171,471,25,blockColor);
+  paintCells(172,472,25,blockColor);
+  paintCells(173,473,25,blockColor);
+  borderCells(170,470,25,"left",borderColor);
 }
 
 function section35(blockColor,splitColor1,splitColor2){
@@ -592,9 +593,6 @@ function splitCells(num1,num2,num3,color1,color2){
 //leftWall, rightWall, topWall, and bottomWall
 
 function translateMapToWindow(cellNum){
-
-console.log(mapPosition.cellNum);
-console.log(mapPosition.direction);
 
   section39("wallgray");
   section24("wallgray");
@@ -715,25 +713,54 @@ console.log(mapPosition.direction);
     section38("floorgray","bottomFloor","rightFloor");
   }
 
+  //Fixes bug at the start of the maze
+
   if(mapPosition.cellNum === 8 && mapPosition.direction === "south"){
     wallSection4();
   }
+
+  //Plays poem when user moves into the maze, but only once
 
   if(mapPosition.cellNum === 203 && mapPosition.direction === "north"){
     if (ifBool != true){
       var audio = new Audio('static/if.mp3');
       audio.play();
+      console.time("mazeTime")
+      timeBegin = Date.now();
       ifBool = true;
     }
   }
 
+  //Next to last square before victory, user can see victory ahead
+
   if(mapPosition.cellNum === 21 && mapPosition.direction === "north"){
-    var farImage = document.createElement('img');
-    farImage.src = 'static/Escherroom.jpg';
-    farImage.id = 'farImage';
-    var myTarget = document.getElementsByTagName('div')[133];
-    myTarget.appendChild(farImage);
+    if (nextToLast == false){
+      var farImage = document.createElement('img');
+      farImage.src = 'static/Escherroom.jpg';
+      farImage.id = 'farImage';
+      var myTarget = document.getElementsByTagName('div')[133];
+      myTarget.appendChild(farImage);
+      myTarget.style.cursor = 'n-resize';
+      myTarget.addEventListener("click", function(){
+        mapPosition.cellNum = mapPosition.moveForward(mapPosition.cellNum);
+        translateMapToWindow(mapPosition.cellNum);
+      });
+      nextToLast = true;
+    }
   }
+
+  //Removes image if user turns away from it
+
+  if(mapPosition.cellNum === 137 && mapPosition.direction === "east" || mapPosition.cellNum === 89 && mapPosition.direction === "west"){
+      if (document.querySelector('#farImage') != null){
+      var targetImage = document.querySelector('#farImage');
+      var myTarget = document.getElementsByTagName('div')[133];
+      myTarget.removeChild(targetImage);
+      nextToLast = false;
+    }
+  }
+
+  //Maze victory and everything that goes with that
 
   if(mapPosition.cellNum === 6 && mapPosition.direction === "north"){
     var targetDiv = document.getElementsByTagName('div')[1];
@@ -741,11 +768,39 @@ console.log(mapPosition.direction);
     var mazeImage = document.createElement('img');
     mazeImage.src = 'static/Escherroom.jpg';
     targetDiv.replaceChild(mazeImage, targetTable);
-    document.querySelector('#header').innerHTML = "You Did It!!!";
+    mazeImage.addEventListener("click", function(){
+      location.reload()
+    });
+    mazeImage.style.cursor = 'pointer';
+    timeEnd = Date.now();
+    var timeTaken = (timeEnd-timeBegin)/1000;
+    setTimeout(function(){document.querySelector('#header').innerHTML = "You Did It!!!"; }, 0);
+    if (timeTaken < 60) {
+      setTimeout(function(){document.querySelector('#header').innerHTML = "It took you " + timeTaken + " seconds to complete the maze"; }, 3000);
+      } else {
+        var timeMinutes = Math.floor(timeTaken/60);
+        var timeSeconds = Math.floor(timeTaken%60);
+        if (timeMinutes > 1){
+          var timePlural = "s and ";
+        } else {
+          var timePlural = " and ";
+        }
+      setTimeout(function(){document.querySelector('#header').innerHTML = "It took you " + timeMinutes + " minute" + timePlural + timeSeconds + " seconds to complete the maze"; }, 3000)
+    }
+    setTimeout(function(){document.querySelector('#header').innerHTML = 'This JavaScript Program was written by Stephen Barry'; }, 6000);
+    setTimeout(function(){document.querySelector('#header').innerHTML = "Special Thanks to Geekwise Academy!"; }, 9000);
+    setTimeout(function(){document.querySelector('#header').innerHTML = "Thanks to my Instructors, Cameron Briar and Thomas Klein!"; }, 12000);
+    setTimeout(function(){document.querySelector('#header').innerHTML = 'The Poem "If" was written by Rudyard Kipling'; }, 15000);
+    setTimeout(function(){document.querySelector('#header').innerHTML = 'Recited by Michael Caine'; }, 18000);
+    setTimeout(function(){document.querySelector('#header').innerHTML = "Symphony No.9 in D Minor written by Ludwig Van Beethoven"; }, 21000);
+    setTimeout(function(){document.querySelector('#header').innerHTML = "Performed by Beaker, a Muppet"; }, 24000);
+    setTimeout(function(){document.querySelector('#header').innerHTML = "To play again, click on the MC Escher print"; }, 27000);
+
     var victory = new Audio('static/ode_to_joy.mp3');
     victory.play();
-      //confirm("You Solved The Maze!!!");
-      //location.reload();
+
+
+
   }
 }
 
@@ -753,8 +808,8 @@ function wallSection1(){
   section5("wallgray","topWall","rightWall");
   section6("wallgray","leftWall","bottomWall");
   section23("wallgray","topWall","leftWall");
-  section24("wallgray","gray");
-  section25("wallgray","gray");
+  section24("wallgray","#333333");
+  section25("wallgray","#333333");
   section26("wallgray","bottomWall","rightWall");
 }
 
@@ -763,10 +818,10 @@ function wallSection2(){
   section4("wallgray","topWall","rightWall");
   section7("wallgray","bottomWall","leftWall");
   section20("wallgray","topWall","leftWall");
-  section21("wallgray","gray");
+  section21("wallgray","#333333");
   section22("wallgray");
   section27("wallgray");
-  section28("wallgray","gray");
+  section28("wallgray","#333333");
   section29("wallgray","bottomWall","rightWall");
 }
 
@@ -775,10 +830,10 @@ function wallSection3(){
   section3("wallgray","topWall","rightWall");
   section8("wallgray","bottomWall","leftWall");
   section17("wallgray","topWall","leftWall");
-  section18("wallgray","gray");
+  section18("wallgray","#333333");
   section19("wallgray");
   section30("wallgray");
-  section31("wallgray","gray");
+  section31("wallgray","#333333");
   section32("wallgray","bottomWall","rightWall");
 }
 
@@ -787,10 +842,10 @@ function wallSection4(){
   section2("wallgray","topWall","rightWall");
   section9("wallgray","bottomWall","leftWall");
   section14("wallgray","topWall","leftWall");
-  section15("wallgray","gray");
+  section15("wallgray","#333333");
   section16("wallgray");
   section33("wallgray");
-  section34("wallgray","gray");
+  section34("wallgray","#333333");
   section35("wallgray","bottomWall","rightWall");
 }
 
@@ -823,6 +878,7 @@ function main(){
   translateMapToWindow(218);
   window.setTimeout(allo,1000);
   mazeMove();
+
 }
 
 main();

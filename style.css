@@ -11,55 +11,55 @@ td div{
 }
 
 div .topSky{
-  border-top: 1.5em solid lightblue;
+  border-top: 1.5em solid #cccccc;
 }
 
 div .leftSky{
-  border-left: 2.25em solid lightblue;
+  border-left: 2.25em solid #cccccc;
 }
 
 div .rightSky{
-  border-right: 2.25em solid lightblue;
+  border-right: 2.25em solid #cccccc;
 }
 
 div .topWall{
-  border-top: 1.5em solid gray;
+  border-top: 1.5em solid #333333;
 }
 
 div .leftWall{
-  border-left: 2.25em solid gray;
+  border-left: 2.25em solid #333333;
 }
 
 div .rightWall{
-  border-right: 2.25em solid gray;
+  border-right: 2.25em solid #333333;
 }
 
 div .bottomWall{
-  border-bottom: 1.5em solid gray;
+  border-bottom: 1.5em solid #333333;
 }
 
 div .bottomFloor{
-  border-bottom: 1.5em solid darkgray;
+  border-bottom: 1.5em solid #808080;
 }
 
 div .leftFloor{
-  border-left: 2.25em solid darkgray;
+  border-left: 2.25em solid #808080;
 }
 
 div .rightFloor{
-  border-right: 2.25em solid darkgray;
+  border-right: 2.25em solid #808080;
 }
 
 .skyblue{
-  background-color: lightblue;
+  background-color: #cccccc;
 }
 
 .floorgray{
-  background-color: darkgray;
+  background-color: #808080;
 }
 
 .wallgray{
-  background-color: gray;
+  background-color: #333333;
 }
 
 div {
@@ -69,11 +69,12 @@ div {
   width: 100%;
   float: left;
   position: relative;
+  color: white;
 }
 
 #header {
   height: 50px;
-  width: 98.5%;
+  width: 97.5%;
   position: fixed;
   float: top;
   z-index: 2;
@@ -83,7 +84,7 @@ div {
   color: white;
   font-family: Arial, sans-serif;
   font-size: 24px;
-  padding-top: 15px;
+  padding-top: 16px;
   text-align: center;
 }
 
@@ -93,7 +94,7 @@ table {
   border: 10px solid black;
   outline: 1px solid white;
   border-collapse: collapse;
-  background-color: #e0e0d1;
+  background-color: white;
 }
 
 img {
@@ -121,11 +122,11 @@ tr, td {
 }
 
 .wall {
-  background-color: #001a00;
+  background-color: #333333;
 }
 
 #farImage{
-  background-color: gray;
+  background-color: #333333;
   width: 385px;
   height: 250px;
   margin-top: 12px;
@@ -138,7 +139,7 @@ tr, td {
 
 #cheat{
   margin-top: -12px;
-  background-color: gray;
+  background-color: #333333;
   width: 300px;
   height: 300px;
   margin-left: auto;
@@ -152,4 +153,5 @@ p {
   font-size: 24px;
   font-family: Arial, sans-serif;
   text-align: center;
+  color: white;
 }
